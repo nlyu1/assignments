@@ -3,9 +3,6 @@ from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
 import torch
-from torch.nn import DataParallel
-from torch.nn import functional as F
-
 from checkpointing import TrainingCheckpointer, normalize_checkpoint_steps
 from data import (
     DEFAULT_DATA_SEED,
@@ -31,8 +28,10 @@ from model_config import (
 )
 from model_io import load_model, load_model_config, resolve_model_builder
 from modeling import AutoregressiveLM, initialize_model
-from optimizers import build_optimizer
 from module_rms_logging import log_module_rms
+from optimizers import build_optimizer
+from torch.nn import DataParallel
+from torch.nn import functional as F
 from utils import (
     MODEL_DIR,
     WANDB_ENTITY,
@@ -256,7 +255,9 @@ class CausalLMTrainingLoss(torch.nn.Module):
     def forward(self, input_ids):
         logits = self.model(input_ids=input_ids)
         loss = causal_lm_loss(logits, input_ids)
-        aux_source = self.model.module if isinstance(self.model, DataParallel) else self.model
+        aux_source = (
+            self.model.module if isinstance(self.model, DataParallel) else self.model
+        )
         auxiliary_loss = getattr(aux_source, "auxiliary_loss", None)
         if auxiliary_loss is not None:
             loss = loss + auxiliary_loss()
@@ -520,7 +521,9 @@ def train(config):
     training_loss = CausalLMTrainingLoss(model)
     if torch_compile_enabled:
         assert num_cuda_devices == 1
-        print(f"Compiling training loss with torch.compile(mode={torch_compile_mode!r})")
+        print(
+            f"Compiling training loss with torch.compile(mode={torch_compile_mode!r})"
+        )
         training_loss = torch.compile(training_loss, mode=torch_compile_mode)
 
     wandb_run_id = checkpointer.wandb_run_id()

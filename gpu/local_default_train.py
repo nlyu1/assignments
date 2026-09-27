@@ -1,12 +1,10 @@
 import torch
-
 from train import TrainConfig, train
-
 
 CONFIG = TrainConfig(
     num_train_sequences=600_000,
     run_name_suffix="local-gpu",
-    wandb_online=False,
+    wandb_online=True,
 )
 
 

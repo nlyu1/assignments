@@ -16,12 +16,12 @@ REPO_ROOT = Path(__file__).resolve().parent
 
 # Student-facing configuration. Most students only edit these three lines.
 CONFIG_MODAL_ENVIRONMENT = "YOUR_MODAL_ENVIRONMENT"
-CONFIG_WANDB_ENTITY = "YOUR_WANDB_USERNAME_OR_TEAM"
+CONFIG_WANDB_ENTITY = "lyuxingjian-na"
 CONFIG_WANDB_PROJECT = "assignments"
 
 # Non-Modal users only: advanced local path overrides.
 # Leave these as None to use the default local directories.
-CONFIG_SCRATCH_ROOT = None
+CONFIG_SCRATCH_ROOT = str(REPO_ROOT.parent / "assignments-scratch")
 CONFIG_MODEL_DIR = None
 CONFIG_DATA_DIR = None
 
