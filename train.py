@@ -1,4 +1,5 @@
 import time
+import uuid
 from dataclasses import asdict, dataclass, field, replace
 from pathlib import Path
 
@@ -532,7 +533,7 @@ def train(config):
         import wandb
 
         if checkpointer.enabled and wandb_run_id is None:
-            wandb_run_id = wandb.util.generate_id()
+            wandb_run_id = uuid.uuid4().hex
             checkpointer.write_wandb_run_state(
                 wandb_run_id,
                 wandb_entity=config.wandb_entity,

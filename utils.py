@@ -15,7 +15,7 @@ from model_config import validate_precision
 REPO_ROOT = Path(__file__).resolve().parent
 
 # Student-facing configuration. Most students only edit these three lines.
-CONFIG_MODAL_ENVIRONMENT = "YOUR_MODAL_ENVIRONMENT"
+CONFIG_MODAL_ENVIRONMENT = "cs312-nlyu"
 CONFIG_WANDB_ENTITY = "lyuxingjian-na"
 CONFIG_WANDB_PROJECT = "assignments"
 
